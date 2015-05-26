@@ -72,7 +72,7 @@ histogram::histogram (double a,double b, int n, vector<double> dane): a(a), b(b)
         bins[k]++;
     }
 }
-class czytacz
+class czytacz // czyta z pliku tekstowego, w którym pierwsza linia jest nagówkami
 {
     vector<vector<double> > vtekst;
     public:
