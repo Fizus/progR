@@ -21,10 +21,13 @@ double odchylenie (vector<double> v)
     double s=0.0;
     double sr=srednia(v);
     for(int i=0;i<v.size();i++)
+    {
         s+=(v[i]-sr)*(v[i]-sr);
-        s=(double)s/(double)v.size();
-        s=sqrt(s);
-        return s;
+    }
+    s=(double)s/(double)v.size();
+    s=sqrt(s);
+    
+    return s;
 }
 
 class histogram
@@ -40,8 +43,10 @@ public:
 
 void histogram::wyrzut (ostream& out)
 {
-    for(int i=0;i<bins.size();i++)
+    for(int i=0; i<bins.size(); i++)
+    {
         out<<(double)a+(b-a)/(double)bins.size()*((double)i+0.5)<<" "<<bins[i]<<endl;
+    }
 }
 
 histogram::histogram (double o,int n, vector<double> dane)
@@ -49,40 +54,45 @@ histogram::histogram (double o,int n, vector<double> dane)
     int k;
     a=srednia(dane)-o*odchylenie(dane);
     b=srednia(dane)+o*odchylenie(dane);
-      for(int i=0;i<n;i++)
+    for(int i=0;i<n;i++)
+    {
         bins.push_back(0);
+    }
     for(int i=0;i<dane.size();i++)
     {
         k=(int)((double)(((double)n*(dane[i]-a)/(b-a))));
-       if(k<n&&k>=0)
+        if(k<n&&k>=0)
         bins[k]++;
     }
 }
 
 int histogram::odczyt (int i)
 {
-    if(i>=0&&i<bins.size())
-    return bins[i];
-    else return -1;
+    if(i>=0 && i<bins.size() )
+        return bins[i];
+    else
+        return -1;
 }
 
 histogram::histogram (double a,double b, int n, vector<double> dane): a(a), b(b)
 {
     int k;
-    for(int i=0;i<n;i++)
-        bins.push_back(0);
-    for(int i=0;i<dane.size();i++)
+    for(int i=0; i<n; i++)
     {
-    k=(int)(((double)((double)n*(dane[i]-a)/(b-a))));
-       if(k<n&&k>=0)
+        bins.push_back(0);
+    }
+    for(int i=0; i<dane.size(); i++)
+    {
+        k=(int)(((double)((double)n*(dane[i]-a)/(b-a))));
+        if(k<n && k>=0)
         bins[k]++;
     }
 }
 
-class czytacz // czyta z pliku tekstowego, w którym pierwsza linia jest nagówkami
+class czytacz // czyta z pliku tekstowego, w ktorym pierwsza linia jest naglowkami
 {
-    vector<vector<double> > vtekst;
-    public:
+    vector< vector<double> > vtekst;
+public:
     czytacz(string plik);
     int rozmiar();
     double komorka(int i, int j);
@@ -92,8 +102,11 @@ class czytacz // czyta z pliku tekstowego, w którym pierwsza linia jest nagówk
 vector<double> czytacz::kolumna(int k)
 {
     vector<double> column;
-    for(int i=0;i<vtekst.size();i++)
-    column.push_back(vtekst[i][k]);
+    for(int i=0; i<vtekst.size(); i++)
+    {
+        column.push_back(vtekst[i][k]);
+    }
+    
     return column;
 }
 
@@ -119,7 +132,9 @@ czytacz::czytacz(string plik)
         istringstream zrodlo(slinia);
         vector<double>vlinia;
         while(zrodlo>>liczba)
+        {
             vlinia.push_back(liczba);
+        }
         vtekst.push_back(vlinia);
     }
 }
