@@ -171,7 +171,7 @@ void plot (vector<double> wartosc, vector<double> liczba_trafien, string nazwa_p
 
 int main(void)
 {
-    czytacz dane("dane.txt");
+    czytacz dane("tau.data");
     histogram wykres(3,100,dane.kolumna(2));
     ofstream wy("wynik.txt");
     wykres.wyrzut(wy);
