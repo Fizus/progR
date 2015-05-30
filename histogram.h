@@ -11,8 +11,8 @@ public:
     histogram (double a,double b, int n, vector<double> dane); //od a do b n kubelkow,
     histogram (double o,int n, vector<double> dane); // o sigma od œredniej, n kubelkow
     int odczyt (int i); // odczytuje i ty kubelek
-    void wyrzut1 (vector<double> liczba_trafien); //wypisuje do wektora
-    void wyrzut2 (vector<double> srodek);
+    void wyrzut1 (vector<double>& liczba_trafien); //wypisuje do wektora
+    void wyrzut2 (vector<double>& srodek);
 };
 double srednia (vector<double> v)
 {
@@ -65,12 +65,12 @@ histogram::histogram (double a,double b, int n, vector<double> dane): a(a), b(b)
         bins[k]++;
     }
 }
-void histogram::wyrzut1 (vector <double> liczba_trafien)
+void histogram::wyrzut1 (vector <double>& liczba_trafien)
 {
     for(int i=0;i<bins.size();i++)
         liczba_trafien.push_back(bins[i]);
 }
-void histogram::wyrzut2 (vector <double> srodek)
+void histogram::wyrzut2 (vector <double>& srodek)
 {
     double x;
     for(int i=0;i<bins.size();i++)
