@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <cmath>
+#include "gnuplot_i.hpp"
 
 using namespace std;
 double srednia (vector<double> v)
@@ -113,7 +114,36 @@ czytacz::czytacz(string plik)
         vtekst.push_back(vlinia);
     }
 }
+void wait_for_key ()
+{
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__TOS_WIN__)  // every keypress registered, also arrow keys
+    cout << endl << "Press any key to continue..." << endl;
 
+    FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+    _getch();
+#elif defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)
+    cout << endl << "Press ENTER to continue..." << endl;
+
+    std::cin.clear();
+    std::cin.ignore(std::cin.rdbuf()->in_avail());
+    std::cin.get();
+#endif
+    return;
+}
+
+void plot (vector<double> wartosc, vector<double> liczba_trafien, string nazwa_pliku, string podpis)
+{
+    Gnuplot g1("histogram");
+
+
+    g1.savetops(nazwa_pliku);
+    g1.set_style("boxes");
+    g1.plot_xy(wartosc, liczba_trafien, podpis);
+
+    g1.showonscreen(); // window output
+    g1.replot();
+    wait_for_key();
+}
 int main()
 {
     czytacz dane("dane.txt");
