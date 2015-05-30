@@ -6,17 +6,19 @@
 #include "gnuplot_i.hpp"
 
 using namespace std;
+
 double srednia (vector<double> v)
 {
-    double s=0;
-    for(int i=0;i<v.size();i++)
+    double s=0.0;
+    for(int i=0; i<v.size(); i++)
         s+=v[i];
     s=(double)s/(double)v.size();
     return s;
 }
+
 double odchylenie (vector<double> v)
 {
-    double s=0;
+    double s=0.0;
     double sr=srednia(v);
     for(int i=0;i<v.size();i++)
         s+=(v[i]-sr)*(v[i]-sr);
@@ -24,6 +26,7 @@ double odchylenie (vector<double> v)
         s=sqrt(s);
         return s;
 }
+
 class histogram
 {
     double a,b;
@@ -34,6 +37,7 @@ public:
     int odczyt (int i); // odczytuje i ty kubelek
     void wyrzut (ostream& out); //wypisuje na output
 };
+
 void histogram::wyrzut (ostream& out)
 {
     for(int i=0;i<bins.size();i++)
@@ -53,14 +57,15 @@ histogram::histogram (double o,int n, vector<double> dane)
        if(k<n&&k>=0)
         bins[k]++;
     }
-
 }
+
 int histogram::odczyt (int i)
 {
     if(i>=0&&i<bins.size())
     return bins[i];
     else return -1;
 }
+
 histogram::histogram (double a,double b, int n, vector<double> dane): a(a), b(b)
 {
     int k;
@@ -73,6 +78,7 @@ histogram::histogram (double a,double b, int n, vector<double> dane): a(a), b(b)
         bins[k]++;
     }
 }
+
 class czytacz // czyta z pliku tekstowego, w którym pierwsza linia jest nagówkami
 {
     vector<vector<double> > vtekst;
@@ -82,22 +88,25 @@ class czytacz // czyta z pliku tekstowego, w którym pierwsza linia jest nagówk
     double komorka(int i, int j);
     vector<double> kolumna(int k);
 };
+
 vector<double> czytacz::kolumna(int k)
 {
     vector<double> column;
     for(int i=0;i<vtekst.size();i++)
     column.push_back(vtekst[i][k]);
     return column;
-
 }
+
 double czytacz::komorka(int i, int j)
 {
     return vtekst[i][j];
 }
+
 int czytacz::rozmiar()
 {
     return vtekst.size();
 }
+
 czytacz::czytacz(string plik)
 {
     string slinia;
@@ -114,6 +123,7 @@ czytacz::czytacz(string plik)
         vtekst.push_back(vlinia);
     }
 }
+
 void wait_for_key ()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__TOS_WIN__)  // every keypress registered, also arrow keys
@@ -135,7 +145,6 @@ void plot (vector<double> wartosc, vector<double> liczba_trafien, string nazwa_p
 {
     Gnuplot g1("histogram");
 
-
     g1.savetops(nazwa_pliku);
     g1.set_style("boxes");
     g1.plot_xy(wartosc, liczba_trafien, podpis);
@@ -144,11 +153,13 @@ void plot (vector<double> wartosc, vector<double> liczba_trafien, string nazwa_p
     g1.replot();
     wait_for_key();
 }
-int main()
+
+int main(void)
 {
     czytacz dane("dane.txt");
     histogram wykres(3,100,dane.kolumna(2));
     ofstream wy("wynik.txt");
     wykres.wyrzut(wy);
+    
     return 0;
 }
