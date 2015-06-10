@@ -33,20 +33,37 @@ double odchylenie (vector<double> v)
 class histogram
 {
     double a,b;
-    vector<int>bins;
+    vector<int> bins;
 public:
     histogram (double a,double b, int n, vector<double> dane); //od a do b n kubelkow,
-    histogram (double o, int n, vector<double> dane); // o sigma od sredniej, n kubelkow
+    histogram (double o,int n, vector<double> dane); // o sigma od œredniej, n kubelkow
     int odczyt (int i); // odczytuje i ty kubelek
-    void wyrzut (ostream& out); //wypisuje na output
+    void wyrzut1 (vector<double>& liczba_trafien); //wypisuje do wektora
+    void wyrzut2 (vector<double>& srodek);
 };
 
-void histogram::wyrzut (ostream& out)
+double srednia (vector<double> v)
 {
-    for(int i=0; i<bins.size(); i++)
+    double s=0;
+    for(int i=0; i<v.size(); i++)
     {
-        out << (double)a+(b-a)/(double)bins.size()*((double)i+0.5)<<" "<< bins[i] << endl;
+        s+=v[i];
     }
+    s=(double)s/(double)v.size();
+    return s;
+}
+
+double odchylenie (vector<double> v)
+{
+    double s=0;
+    double sr=srednia(v);
+    for(int i=0;i<v.size();i++)
+    {
+        s+=(v[i]-sr)*(v[i]-sr);
+    }
+    s=(double)s/(double)v.size();
+    s=sqrt(s);
+    return s;
 }
 
 histogram::histogram (double o,int n, vector<double> dane)
@@ -84,8 +101,26 @@ histogram::histogram (double a,double b, int n, vector<double> dane): a(a), b(b)
     for(int i=0; i<dane.size(); i++)
     {
         k=(int)(((double)((double)n*(dane[i]-a)/(b-a))));
-        if(k<n && k>=0)
-        bins[k]++;
+        if(k<n&&k>=0)
+            bins[k]++;
+    }
+}
+
+void histogram::wyrzut1 (vector <double>& liczba_trafien)
+{
+    for(int i=0;i<bins.size();i++)
+    {
+        liczba_trafien.push_back(bins[i]);
+    }
+}
+
+void histogram::wyrzut2 (vector <double>& srodek)
+{
+    double x;
+    for(int i=0; i<bins.size(); i++)
+    {
+         x=(double)a+(b-a)/(double)bins.size()*((double)i+0.5);
+         srodek.push_back(x);
     }
 }
 
